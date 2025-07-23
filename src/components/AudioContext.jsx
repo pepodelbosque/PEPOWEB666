@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
-import musicFile from '../assets/music.wav'; // Add this import
+import musicFile from '../assets/music.wav';
 
 // Create a context for audio state
 const AudioContext = createContext();
@@ -10,16 +10,16 @@ export const useAudio = () => useContext(AudioContext);
 // Provider component
 export const AudioProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false); // Start unmuted
+  const [isMuted, setIsMuted] = useState(true); // Start muted (off mode)
   const audioRef = useRef(null);
   const hasStartedRef = useRef(false); // Track if audio has been started
-  const autoStartAttempted = useRef(false); // Track if we've attempted auto-start
   
   useEffect(() => {
     // Create audio element - Use imported music file
     audioRef.current = new Audio(musicFile);
     audioRef.current.loop = true; // This ensures eternal looping
     audioRef.current.volume = 0; // Start with volume at 0
+    audioRef.current.muted = true; // Start muted
     
     // Load the audio but don't play it yet
     audioRef.current.load();
@@ -29,12 +29,7 @@ export const AudioProvider = ({ children }) => {
       console.log("Audio metadata loaded successfully");
       // Set current time to the middle of the song
       audioRef.current.currentTime = audioRef.current.duration / 2;
-      
-      // Auto-start audio immediately after metadata loads
-      if (!autoStartAttempted.current) {
-        autoStartAttempted.current = true;
-        startAudioWithFadeIn();
-      }
+      // Remove auto-start - audio will only start on user interaction
     });
     
     // Add error listener
@@ -54,19 +49,21 @@ export const AudioProvider = ({ children }) => {
   
   // Function to start audio with fade-in effect
   const startAudioWithFadeIn = () => {
-    if (!audioRef.current || hasStartedRef.current) return;
+    if (!audioRef.current) return;
     
-    // Start playing audio with proper error handling
+    // Unmute and start playing audio with proper error handling
+    audioRef.current.muted = false;
+    setIsMuted(false);
+    
     audioRef.current.play()
       .then(() => {
         console.log("Audio started successfully");
         hasStartedRef.current = true;
         setIsPlaying(true);
         
-        // Implement fade-in effect with half gain (0.05 instead of 0.1)
+        // Implement fade-in effect
         let volume = 0;
-        // This volume setting applies to ALL devices (desktop, mobile, tablet)
-        const targetVolume = 0.05; // Target volume reduced to half (5%)
+        const targetVolume = 0.05; // Target volume (5%)
         const fadeInDuration = 6000; // Fade in over 6 seconds
         const fadeInStep = targetVolume / (fadeInDuration / 100);
         
@@ -92,6 +89,12 @@ export const AudioProvider = ({ children }) => {
   const togglePlay = () => {
     if (!audioRef.current) return;
     
+    // If audio hasn't started yet, start it
+    if (!hasStartedRef.current) {
+      startAudioWithFadeIn();
+      return;
+    }
+    
     if (isPlaying) {
       audioRef.current.pause();
     } else {
@@ -101,7 +104,7 @@ export const AudioProvider = ({ children }) => {
     setIsPlaying(!isPlaying);
   };
   
-  // Toggle mute
+  // Toggle mute - now also starts audio if not started
   const toggleMute = () => {
     if (!audioRef.current) return;
     
@@ -121,16 +124,24 @@ export const AudioProvider = ({ children }) => {
     }
   };
   
-  // Play audio for a specific section - simplified
-  const playForSection = (section) => {
-    // Remove automatic audio start - only start if user explicitly requests it
-    // if (!hasStartedRef.current) {
-    //   startAudioWithFadeIn();
-    // }
+  // Function to start audio (for button triggers)
+  const startAudio = () => {
+    if (!hasStartedRef.current) {
+      startAudioWithFadeIn();
+    } else if (!isPlaying) {
+      togglePlay();
+    }
   };
   
   return (
-    <AudioContext.Provider value={{ isPlaying, isMuted, togglePlay, toggleMute, playForSection }}>
+    <AudioContext.Provider value={{ 
+      isPlaying, 
+      isMuted, 
+      togglePlay, 
+      toggleMute, 
+      startAudio,
+      audioRef 
+    }}>
       {children}
     </AudioContext.Provider>
   );
