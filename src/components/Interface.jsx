@@ -139,7 +139,7 @@ const AboutSection = (props) => {
         Hola, me llamo
         <br />
         <span 
-          className="text-4xl md:text-7xl font-extrabold bg-cyan px-1 italic font-dxfiggle" 
+          className="text-4xl md:text-6xl font-extrabold bg-cyan px-1 italic font-dxfiggle" 
           style={{ 
             color: '#c75df0',
             textShadow: '-0.5px -0.5px 0 rgba(74, 26, 74, 0.5), 0.5px -0.5px 0 rgba(74, 26, 74, 0.5), -0.5px 0.5px 0 rgba(74, 26, 74, 0.5), 0.5px 0.5px 0 rgba(74, 26, 74, 0.5)'
