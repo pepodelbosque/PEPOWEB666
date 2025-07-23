@@ -65,8 +65,8 @@ export const AudioProvider = ({ children }) => {
         let volume = 0;
         // Detect if device is mobile
         const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        // Set volume levels for different devices
-        const targetVolume = isMobile ? 0.15 : 0.05; // 15% for mobile, 5% for desktop
+        // Set volume levels for different devices - mobile reduced by 50%
+        const targetVolume = isMobile ? 0.075 : 0.05; // 7.5% for mobile (50% reduction), 5% for desktop
         const fadeInDuration = 6000; // Fade in over 6 seconds
         const fadeInStep = targetVolume / (fadeInDuration / 100);
         
