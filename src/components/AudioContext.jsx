@@ -61,9 +61,12 @@ export const AudioProvider = ({ children }) => {
         hasStartedRef.current = true;
         setIsPlaying(true);
         
-        // Implement fade-in effect
+        // Implement fade-in effect with mobile detection
         let volume = 0;
-        const targetVolume = 0.05; // Target volume (5%)
+        // Detect if device is mobile
+        const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        // Reduce volume further for mobile devices
+        const targetVolume = isMobile ? 0.025 : 0.05; // 2.5% for mobile, 5% for desktop
         const fadeInDuration = 6000; // Fade in over 6 seconds
         const fadeInStep = targetVolume / (fadeInDuration / 100);
         
