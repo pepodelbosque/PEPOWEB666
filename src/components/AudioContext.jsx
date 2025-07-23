@@ -29,6 +29,12 @@ export const AudioProvider = ({ children }) => {
       console.log("Audio metadata loaded successfully");
       // Set current time to the middle of the song
       audioRef.current.currentTime = audioRef.current.duration / 2;
+      
+      // Auto-start audio immediately after metadata loads
+      if (!autoStartAttempted.current) {
+        autoStartAttempted.current = true;
+        startAudioWithFadeIn();
+      }
     });
     
     // Add error listener
@@ -57,9 +63,9 @@ export const AudioProvider = ({ children }) => {
         hasStartedRef.current = true;
         setIsPlaying(true);
         
-        // Implement fade-in effect
+        // Implement fade-in effect with half gain (0.1 instead of 0.2)
         let volume = 0;
-        const targetVolume = 0.2; // Target volume (20%)
+        const targetVolume = 0.1; // Target volume reduced to half (10%)
         const fadeInDuration = 6000; // Fade in over 6 seconds
         const fadeInStep = targetVolume / (fadeInDuration / 100);
         
