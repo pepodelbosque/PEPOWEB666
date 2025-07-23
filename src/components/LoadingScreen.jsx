@@ -24,9 +24,10 @@ export const LoadingScreen = (props) => {
       className={`fixed top-0 left-0 w-full h-full z-50 transition-opacity duration-1000 pointer-events-none
       flex items-center justify-center bg-cover bg-center
       ${started ? "opacity-0" : "opacity-100"}`}
-      style={{
-        backgroundImage: `url('/textures/transition_texture.png')`,
-      }}
+      // Remove the style with backgroundImage
+      // style={{
+      //   backgroundImage: `url('/textures/transition_texture.png')`,
+      // }}
     >
       {/* Replace the text loading with CSS loader */}
       <div className="loader"></div>
