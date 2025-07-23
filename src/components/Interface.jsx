@@ -123,6 +123,16 @@ export const Interface = (props) => {
 
 const AboutSection = (props) => {
   const { setSection } = props;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <Section mobileTop>
       <h1 className="text-2xl md:text-2xl font-bold leading-snug mt-0 md:mt-1" style={{ color: '#eab0ea' }}>
@@ -163,13 +173,12 @@ const AboutSection = (props) => {
       </motion.p>
       <motion.button
         onClick={() => setSection(3)}
-        className={`bg-[#dd81dd] py-2 px-4 
-      rounded-lg font-bold text-sm mt-2 md:mt-8 font-dxfiggle`}
-        style={{ 
-          color: 'transparent', 
-          opacity: 0.5,
-          WebkitTextStroke: '0.01px black',
-          textStroke: '0.01px black'
+        className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm mt-2 md:mt-8 font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
+        style={{
+          ...( !isMobile && {
+            WebkitTextStroke: '0.01px black',
+            textStroke: '0.01px black'
+          })
         }}
         initial={{
           opacity: 1,
