@@ -1,5 +1,5 @@
 
-![Thumbnail Video Tutorial](https://github.com/wass08/r3f-portfolio-responsive/assets/6551176/bf148f55-e6ba-46c4-b53d-9f93e1d1f99f)
+![Thumbnail Video Tutorial](https://japondesdejapon.com/wp-content/uploads/2023/11/ninja_cover.jpg)
 
-[Video tutorial](https://youtube.com/@WawaSensei)
+[Video tutorial]()
 

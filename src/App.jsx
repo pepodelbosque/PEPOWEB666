@@ -10,15 +10,20 @@ import { LoadingScreen } from "./components/LoadingScreen";
 import { Menu } from "./components/Menu";
 import { ScrollManager } from "./components/ScrollManager";
 import { framerMotionConfig } from "./config";
+import { AudioProvider, useAudio } from "./components/AudioContext";
 
-function App() {
+function AppContent() {
   const [section, setSection] = useState(0);
   const [started, setStarted] = useState(false);
   const [menuOpened, setMenuOpened] = useState(false);
+  // Remove the playForSection destructuring
+  // const { playForSection } = useAudio();
 
   useEffect(() => {
     setMenuOpened(false);
-  }, [section]);
+    // Remove the automatic audio call when section changes
+    // playForSection(section);
+  }, [section]); // Remove playForSection from dependencies
 
   return (
     <>
@@ -48,11 +53,20 @@ function App() {
           onSectionChange={setSection}
           menuOpened={menuOpened}
           setMenuOpened={setMenuOpened}
+          section={section}
         />
         <Cursor />
       </MotionConfig>
       <Leva hidden />
     </>
+  );
+}
+
+function App() {
+  return (
+    <AudioProvider>
+      <AppContent />
+    </AudioProvider>
   );
 }
 

@@ -8,6 +8,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
 import { motion } from "framer-motion-3d";
 import { useEffect, useRef, useState } from "react";
+import { Euler } from "three";
 import { framerMotionConfig } from "../config";
 import { Avatar } from "./Avatar";
 import { Background } from "./Background";
@@ -84,9 +85,9 @@ export const Experience = (props) => {
       <Background />
       <motion.group
         ref={characterGroup}
-        rotation={[-3.141592653589793, 1.2053981633974482, 3.141592653589793]}
+        rotation={new Euler(-3.141592653589793, 1.2053981633974482, 3.141592653589793)}
         scale={[officeScaleRatio, officeScaleRatio, officeScaleRatio]}
-        animate={"" + section}
+        animate={'' + section}
         transition={{
           duration: 0.6,
         }}
@@ -134,7 +135,7 @@ export const Experience = (props) => {
           },
         }}
       >
-        <Avatar  animation={characterAnimation} wireframe={[0, 1, 2, 3].includes(section)} />
+        <Avatar animation={characterAnimation} wireframe={[0, 1, 2, 3].includes(section)} section={section} />
       </motion.group>
       <ambientLight intensity={1} />
       <motion.group
@@ -153,12 +154,11 @@ export const Experience = (props) => {
         }}
       >
         <Office section={section} />
-        <group 
+        <group
           ref={characterContainerAboutRef}
           name="CharacterSpot"
           position={[1.77, 0.26, 1.13]}
-          rotation={[-Math.PI, 0.42, -Math.PI]}
-          
+          rotation={new Euler(-Math.PI, 0.42, -Math.PI)}
         ></group>
       </motion.group>
 

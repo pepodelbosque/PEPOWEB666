@@ -2,6 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'DxFiggle';
+  src: url('/fonts/DxFiggle.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Make paragraph text responsive and always smaller than span text */
+@layer base {
+  p {
+    font-size: clamp(0.75rem, 2vw, 2rem); /* Exactly half of span size */
+    line-height: 1.3; /* Slightly increased for better readability */
+  }
+  
+  span {
+    font-size: clamp(1.5rem, 4vw, 4rem); /* Match h1 size in full view (text-4xl md:text-6xl) */
+    line-height: 1.2;
+  }
+  
+  /* We can remove this commented rule since it's no longer needed */
+  /* span + p, p + span, span p {
+    font-size: clamp(0.65rem, 1.3vw, 0.75rem);
+  } */
+}
+
+/* CSS Loader Animation */
+.loader {
+  display: inline-flex;
+  border: 10px solid #000;
+  border-radius: 5px;
+  opacity: 0.5; /* Set to 50% opacity */
+}
+.loader::before,
+.loader::after {
+  content: "0 1 2 3 4 5 6 7 8 9 0";
+  font-size: 30px;
+  font-family: monospace;
+  font-weight: bold;
+  line-height: 1em;
+  height: 1em;
+  width: 1.2ch;
+  text-align: center;
+  outline: 1px solid #000;
+  color: #0000;
+  text-shadow: 0 0 0 #000;
+  overflow: hidden;
+  animation: l4 2s infinite linear;
+}
+.loader::before {
+  animation-duration: 4s;
+}
+@keyframes l4 {
+  100% { text-shadow: 0 var(--t, -10em) 0 #000 }
+}
+
 #root {
   width: 100vw;
   height: 100vh;
@@ -9,4 +64,52 @@
 
 body {
   margin: 0;
+}
+
+.parallax {
+    overflow: hidden;
+    letter-spacing: -2px;
+    line-height: 0.8;
+    margin: 0;
+    white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.parallax .scroller {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 64px;
+    display: flex;
+    white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.parallax .scroller span {
+    display: block;
+    margin-right: 30px;
+}
+
+.custom-scroll-text {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 40%;
+    z-index: 0;
+    opacity: 0.2; /* Changed from 0.1 to 0.2 */
+    color: #eab0ea;
+}
+
+/* Add this at the end of the file */
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
