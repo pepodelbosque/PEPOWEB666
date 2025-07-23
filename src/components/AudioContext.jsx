@@ -67,7 +67,7 @@ export const AudioProvider = ({ children }) => {
         let volume = 0;
         const targetVolume = 0.1; // Target volume reduced to half (10%)
         const fadeInDuration = 6000; // Fade in over 6 seconds
-        const fadeInStep = targetVolume / (fadeInDuration / 100);
+        const fadeInStep = targetVolume / (fadeInDuration / 50);
         
         const fadeInInterval = setInterval(() => {
           if (volume < targetVolume) {
