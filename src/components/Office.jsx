@@ -35,12 +35,13 @@ export function Office (props) {
       const pulse = Math.sin(time * pulseSpeed) * pulseIntensity;
       const newScale = baseScale + pulse;
       
-      // Add very low rotation to the right (10x slower)
+      // Oscillating rotation within 100 degrees (-50 to 50 degrees)
       const rotationSpeed = 0.01; // Very slow rotation speed (10x slower)
-      const rotationY = time * rotationSpeed;
+      const maxRotation = (50 * Math.PI / 180); // Half of 100 degrees in radians
+      const rotationY = Math.sin(time * rotationSpeed) * maxRotation;
       
       groupRef.current.scale.setScalar(newScale);
-      groupRef.current.rotation.y = rotationY; // Positive for right rotation
+      groupRef.current.rotation.y = rotationY;
     }
   });
 
