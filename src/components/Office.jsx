@@ -9,7 +9,7 @@ import { useFrame } from '@react-three/fiber'
 
 export function Office (props) {
   const { section } = props;
-  const { nodes, materials } = useGLTF('public/models/Workstation.gltf')
+  const { nodes, materials } = useGLTF('/models/Workstation.gltf')
   const groupRef = useRef();
 
   // Remove the audio trigger from here to avoid conflicts
