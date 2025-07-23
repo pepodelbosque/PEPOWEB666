@@ -65,7 +65,7 @@ export const AudioProvider = ({ children }) => {
         
         // Implement fade-in effect with half gain (0.1 instead of 0.2)
         let volume = 0;
-        const targetVolume = 0.05; // Target volume reduced to half (5%)
+        const targetVolume = 0.1; // Target volume reduced to half (10%)
         const fadeInDuration = 6000; // Fade in over 6 seconds
         const fadeInStep = targetVolume / (fadeInDuration / 100);
         
