@@ -23,6 +23,14 @@ export function Office (props) {
     });
   }
 
+  // Set opacity to 30% for all materials
+  if (materials) {
+    Object.values(materials).forEach((material) => {
+      material.transparent = true;
+      material.opacity = 0.3; // Changed from 0.5 to 0.3 for 30% opacity
+    });
+  }
+
   // Enhanced pulsating animation
   useFrame((state) => {
     if (groupRef.current) {

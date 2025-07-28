@@ -22,7 +22,10 @@ export const Experience = (props) => {
 
   const isMobile = window.innerWidth < 768;
   const responsiveRatio = viewport.width / 12;
-  const officeScaleRatio = Math.max(0.7, Math.min(0.9 * responsiveRatio, 0.9));
+  // Modified scaling logic: 1.5x bigger for mobile, preserve desktop settings
+  const officeScaleRatio = isMobile 
+    ? Math.max(1.05, Math.min(1.35 * responsiveRatio, 1.35)) // 1.5x bigger for mobile (0.7*1.5=1.05, 0.9*1.5=1.35)
+    : Math.max(0.7, Math.min(0.9 * responsiveRatio, 0.9)); // Keep original desktop settings
 
   const [section, setSection] = useState(0);
 
