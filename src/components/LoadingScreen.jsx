@@ -7,6 +7,7 @@ export const LoadingScreen = (props) => {
   const { progress, total, loaded, item } = useProgress();
   const [loadingText, setLoadingText] = useState("Loading...");
   const [smoothProgress, setSmoothProgress] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
 
   // Smooth progress animation
   useEffect(() => {
@@ -39,18 +40,22 @@ export const LoadingScreen = (props) => {
 
   useEffect(() => {
     if (progress === 100) {
+      // Mark as complete and start fade out sequence
+      setIsComplete(true);
+      setLoadingText("Complete!");
+      
       // Ensure all assets are fully loaded before starting
       setTimeout(() => {
         setStarted(true);
-      }, 800); // Increased delay for smoother transition
+      }, 1200); // Extended delay for smoother fade out
     }
   }, [progress, setStarted]);
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full z-50 transition-opacity duration-1000 pointer-events-none
+      className={`fixed top-0 left-0 w-full h-full z-50 transition-all duration-[1500ms] ease-out pointer-events-none
       flex items-center justify-center overflow-hidden bg-black
-      ${started ? "opacity-0" : "opacity-100"}`}
+      ${started ? "opacity-0 scale-105" : "opacity-100 scale-100"}`}
     >
       {/* Grainy noise overlay */}
       <Noise 
@@ -61,7 +66,9 @@ export const LoadingScreen = (props) => {
         patternAlpha={40}
       />
       
-      <div className="text-center scale-50 relative z-10">
+      <div className={`text-center scale-50 relative z-10 transition-all duration-1000 ease-out ${
+        isComplete ? "transform translate-y-2 opacity-90" : "transform translate-y-0 opacity-100"
+      }`}>
         {/* Simple progress bar */}
         <div className="w-40 h-1.5 bg-gray-800 rounded-full mb-6 overflow-hidden">
           <div 
@@ -71,7 +78,9 @@ export const LoadingScreen = (props) => {
         </div>
         
         {/* Loading text */}
-        <div className="text-white text-xl font-thin font-mono mb-3 tracking-wider">
+        <div className={`text-white text-xl font-thin font-mono mb-3 tracking-wider transition-all duration-500 ${
+          isComplete ? "text-green-400" : "text-white"
+        }`}>
           {loadingText}
         </div>
         
