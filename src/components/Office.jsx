@@ -27,7 +27,9 @@ export function Office (props) {
   if (materials) {
     Object.values(materials).forEach((material) => {
       material.transparent = true;
-      material.opacity = 0.3; // Changed from 0.5 to 0.3 for 30% opacity
+      material.opacity = 0.3;
+      // Performance optimization
+      material.needsUpdate = false; // Prevent unnecessary updates
     });
   }
 
@@ -116,4 +118,5 @@ export function Office (props) {
 )
 }
 
-useGLTF.preload('public/models/workstation.gltf')
+// Preload with correct path
+useGLTF.preload('/models/Workstation.gltf'); // Fixed path
