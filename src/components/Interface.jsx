@@ -124,6 +124,7 @@ export const Interface = (props) => {
 const AboutSection = (props) => {
   const { setSection } = props;
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isPortrait, setIsPortrait] = useState(window.matchMedia('(orientation: portrait)').matches);
 
   useEffect(() => {
     const handleResize = () => {
@@ -131,6 +132,23 @@ const AboutSection = (props) => {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(orientation: portrait)');
+    const handler = (e) => setIsPortrait(e.matches);
+    if (mql.addEventListener) {
+      mql.addEventListener('change', handler);
+    } else {
+      mql.addListener(handler);
+    }
+    return () => {
+      if (mql.removeEventListener) {
+        mql.removeEventListener('change', handler);
+      } else {
+        mql.removeListener(handler);
+      }
+    };
   }, []);
 
   return (
@@ -171,7 +189,7 @@ const AboutSection = (props) => {
         lo que siento.
 
       </motion.p>
-      <div className="mt-2 md:mt-8 flex flex-col md:flex-row gap-2 md:gap-4">
+      <div className={`mt-2 md:mt-8 flex flex-col md:flex-row gap-2 md:gap-4 ${isPortrait ? 'self-start items-start' : ''}`}>
         <motion.button
           onClick={() => setSection(3)}
           className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
@@ -242,7 +260,7 @@ const AboutSection = (props) => {
             delay: 0,
           }}
         >
-          Información
+          Info
         </motion.button>
       </div>
     </Section>
