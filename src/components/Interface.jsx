@@ -137,9 +137,17 @@ const AboutSection = (props) => {
   useEffect(() => {
     const mql = window.matchMedia('(orientation: portrait)');
     const handler = (e) => setIsPortrait(e.matches);
-    mql.addEventListener('change', handler);
+    if (typeof mql.addEventListener === 'function') {
+      mql.addEventListener('change', handler);
+    } else if (typeof mql.addListener === 'function') {
+      mql.addListener(handler);
+    }
     setIsPortrait(mql.matches);
-    return () => mql.removeEventListener('change', handler);
+    const cleanup = () => {
+      if ('removeEventListener' in mql) mql.removeEventListener('change', handler);
+      else if ('removeListener' in mql) mql.removeListener(handler);
+    };
+    return cleanup;
   }, []);
 
   return (
