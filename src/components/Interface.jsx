@@ -227,7 +227,7 @@ const AboutSection = (props) => {
             delay: 0,
           }}
         >
-          Videos
+          Films
         </motion.button>
         <motion.button
           onClick={() => setSection(1)}
