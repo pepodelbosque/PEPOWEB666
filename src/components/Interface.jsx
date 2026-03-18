@@ -171,30 +171,80 @@ const AboutSection = (props) => {
         lo que siento.
 
       </motion.p>
-      <motion.button
-        onClick={() => setSection(3)}
-        className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm mt-2 md:mt-8 font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
-        style={{
-          ...( !isMobile && {
-            WebkitTextStroke: '0.01px black',
-            textStroke: '0.01px black'
-          })
-        }}
-        initial={{
-          opacity: 1,
-          y: 0,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 0,
-          delay: 0,
-        }}
-      >
-        Contáctame
-      </motion.button>
+      <div className="mt-2 md:mt-8 flex flex-col md:flex-row gap-2 md:gap-4">
+        <motion.button
+          onClick={() => setSection(3)}
+          className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
+          style={{
+            ...( !isMobile && {
+              WebkitTextStroke: '0.01px black',
+              textStroke: '0.01px black'
+            })
+          }}
+          initial={{
+            opacity: 1,
+            y: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0,
+            delay: 0,
+          }}
+        >
+          Contáctame
+        </motion.button>
+        <motion.button
+          onClick={() => setSection(2)}
+          className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
+          style={{
+            ...( !isMobile && {
+              WebkitTextStroke: '0.01px black',
+              textStroke: '0.01px black'
+            })
+          }}
+          initial={{
+            opacity: 1,
+            y: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0,
+            delay: 0,
+          }}
+        >
+          Videos
+        </motion.button>
+        <motion.button
+          onClick={() => setSection(1)}
+          className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
+          style={{
+            ...( !isMobile && {
+              WebkitTextStroke: '0.01px black',
+              textStroke: '0.01px black'
+            })
+          }}
+          initial={{
+            opacity: 1,
+            y: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0,
+            delay: 0,
+          }}
+        >
+          Información
+        </motion.button>
+      </div>
     </Section>
   );
 };
