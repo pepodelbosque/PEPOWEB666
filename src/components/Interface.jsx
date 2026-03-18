@@ -137,23 +137,14 @@ const AboutSection = (props) => {
   useEffect(() => {
     const mql = window.matchMedia('(orientation: portrait)');
     const handler = (e) => setIsPortrait(e.matches);
-    if (mql.addEventListener) {
-      mql.addEventListener('change', handler);
-    } else {
-      mql.addListener(handler);
-    }
-    return () => {
-      if (mql.removeEventListener) {
-        mql.removeEventListener('change', handler);
-      } else {
-        mql.removeListener(handler);
-      }
-    };
+    mql.addEventListener('change', handler);
+    setIsPortrait(mql.matches);
+    return () => mql.removeEventListener('change', handler);
   }, []);
 
   return (
     <Section mobileTop>
-      <h1 className="text-2xl md:text-2xl font-bold leading-snug mt-0 md:mt-1" style={{ color: '#eab0ea' }}>
+      <h1 className={`text-2xl md:text-2xl font-bold leading-snug mt-0 md:mt-1 ${isPortrait ? 'mt-6' : ''}`} style={{ color: '#eab0ea' }}>
         Hola, me llamo
         <br />
         <span 
@@ -167,7 +158,7 @@ const AboutSection = (props) => {
         </span>
       </h1>
       <motion.p
-        className="text-2g mt-2"
+        className={`text-2g mt-2 ${isPortrait ? 'mt-4' : ''}`}
         style={{ color: '#eab0ea' }}
         initial={{
           opacity: 0,
@@ -189,7 +180,7 @@ const AboutSection = (props) => {
         lo que siento.
 
       </motion.p>
-      <div className={`mt-2 md:mt-8 flex flex-col md:flex-row gap-2 md:gap-4 ${isPortrait ? 'self-start items-start' : ''}`}>
+      <div className={`mt-2 md:mt-8 flex flex-col md:flex-row gap-2 md:gap-4 ${isPortrait ? 'mt-6 self-start items-start' : ''}`}>
         <motion.button
           onClick={() => setSection(3)}
           className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
