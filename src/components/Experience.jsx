@@ -22,6 +22,7 @@ export const Experience = (props) => {
 
   const isMobile = window.innerWidth < 768;
   const responsiveRatio = viewport.width / 12;
+  const desktopHeroClearance = isMobile ? 0 : Math.max(viewport.height * 0.36, 1.75);
   // Modified scaling logic: 1.5x bigger for mobile, preserve desktop settings
   const officeScaleRatio = isMobile 
     ? Math.max(1.05, Math.min(1.35 * responsiveRatio, 1.35)) // 1.5x bigger for mobile (0.7*1.5=1.05, 0.9*1.5=1.35)
@@ -104,7 +105,7 @@ export const Experience = (props) => {
             rotateZ: 0,
           },
           1: {
-            y: -viewport.height + -0.2,
+            y: -viewport.height - 0.2 - desktopHeroClearance,
             x: isMobile ? -0.3 : 0,
             z: 5.8,
             rotateX: 0,
@@ -169,17 +170,17 @@ export const Experience = (props) => {
       <motion.group
         position={[
           0,
-          isMobile ? -viewport.height : -1.5 * officeScaleRatio,
+          isMobile ? -viewport.height : -1.5 * officeScaleRatio - desktopHeroClearance,
           -10,
         ]}
         animate={{
           z: section === 1 ? 0 : -10,
           y:
             section === 1
-              ? -viewport.height
+              ? -viewport.height - desktopHeroClearance
               : isMobile
               ? -viewport.height
-              : -1.5 * officeScaleRatio,
+              : -1.5 * officeScaleRatio - desktopHeroClearance,
         }}
       >
         <directionalLight position={[-5, 3, 5]} intensity={0.4} />

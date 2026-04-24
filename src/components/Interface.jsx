@@ -1,7 +1,5 @@
 import { ValidationError, useForm } from "@formspree/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAtom } from "jotai";
-import { currentProjectAtom, projects } from "./Projects";
 import { useEffect, useState } from "react";
 
 const Section = (props) => {
@@ -153,8 +151,6 @@ const AboutSection = (props) => {
   return (
     <Section mobileTop>
       <h1 className={`text-2xl md:text-2xl font-bold leading-snug mt-0 md:mt-1 ${isPortrait ? 'mt-6' : ''}`} style={{ color: '#eab0ea' }}>
-        Hola, me llamo
-        <br />
         <span 
           className="text-4xl md:text-6xl font-extrabold bg-cyan px-1 italic font-dxfiggle" 
           style={{ 
@@ -191,13 +187,7 @@ const AboutSection = (props) => {
       <div className={`mt-2 md:mt-8 flex flex-col md:flex-row gap-2 md:gap-4 ${isPortrait ? 'mt-6 self-start items-start' : ''}`}>
         <motion.button
           onClick={() => setSection(3)}
-          className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
-          style={{
-            ...( !isMobile && {
-              WebkitTextStroke: '0.01px black',
-              textStroke: '0.01px black'
-            })
-          }}
+          className="bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle text-[#8a42b8]"
           initial={{
             opacity: 1,
             y: 0,
@@ -215,13 +205,7 @@ const AboutSection = (props) => {
         </motion.button>
         <motion.button
           onClick={() => setSection(2)}
-          className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
-          style={{
-            ...( !isMobile && {
-              WebkitTextStroke: '0.01px black',
-              textStroke: '0.01px black'
-            })
-          }}
+          className="bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle text-[#8a42b8]"
           initial={{
             opacity: 1,
             y: 0,
@@ -239,13 +223,7 @@ const AboutSection = (props) => {
         </motion.button>
         <motion.button
           onClick={() => setSection(1)}
-          className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
-          style={{
-            ...( !isMobile && {
-              WebkitTextStroke: '0.01px black',
-              textStroke: '0.01px black'
-            })
-          }}
+          className="bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle text-[#8a42b8]"
           initial={{
             opacity: 1,
             y: 0,
@@ -306,7 +284,7 @@ const languages = [
 const SkillsSection = () => {
   return (
     <Section>
-      <motion.div className="w-full" whileInView={"visible"}>
+      <motion.div className="w-full md:pt-36 lg:pt-40" whileInView={"visible"}>
         <h2 className="text-3xl md:text-5xl font-bold font-dxfiggle inline-block mt-10 md:mt-0" style={{ color: '#eab0ea' }}>Skills</h2>
         <span className="text-xs uppercase tracking-wider ml-3 opacity-70 align-middle" style={{ color: '#eab0ea' }}>Cómo me muevo</span>
         <div className="mt-8 space-y-4">
@@ -407,33 +385,10 @@ const SkillsSection = () => {
 };
 
 const ProjectsSection = () => {
-  const [currentProject, setCurrentProject] = useAtom(currentProjectAtom);
-
-  const nextProject = () => {
-    setCurrentProject((currentProject + 1) % projects.length);
-  };
-
-  const previousProject = () => {
-    setCurrentProject((currentProject - 1 + projects.length) % projects.length);
-  };
-
   return (
-    <Section>
-      <div className="flex w-full h-full gap-8 items-center justify-center">
-        {/* Removed the left "Projects" title */}
-        <button
-          className="hover:text-indigo-600 transition-colors"
-          onClick={previousProject}
-        >
-          ← Previous
-        </button>
+    <Section mobileTop>
+      <div className="flex w-full h-full items-start justify-center pt-12 md:pt-10 lg:pt-12">
         <h2 className="text-3xl md:text-5xl font-bold font-dxfiggle" style={{ color: '#FFB6C1' }}>Projects</h2>
-        <button
-          className="hover:text-indigo-600 transition-colors"
-          onClick={nextProject}
-        >
-          Next →
-        </button>
       </div>
     </Section>
   );
@@ -444,22 +399,23 @@ const ContactSection = () => {
   
   return (
     <Section>
-      <h2 
-        className="text-3xl md:text-5xl font-bold font-dxfiggle ml-4" 
-        style={{ 
-          background: 'linear-gradient(45deg, #ff00cc, #3333ff, #00ffff, #ff00cc)',
-          backgroundSize: '300% 300%',
-          animation: 'gradient-animation 20s ease infinite',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          textFillColor: 'transparent',
-          textShadow: '0 0 8px rgba(234, 176, 234, 0.3)'
-        }}
-      >
-        Contáctame
-      </h2>
-      <div className="mt-8 p-4 md:p-6 rounded-md bg-transparent backdrop-blur-sm border border-white/20 w-96 max-w-full">
+      <div className="w-full pt-12 md:pt-20 lg:pt-24">
+        <h2 
+          className="text-3xl md:text-5xl font-bold font-dxfiggle ml-4" 
+          style={{ 
+            background: 'linear-gradient(45deg, #ff00cc, #3333ff, #00ffff, #ff00cc)',
+            backgroundSize: '300% 300%',
+            animation: 'gradient-animation 20s ease infinite',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            textFillColor: 'transparent',
+            textShadow: '0 0 8px rgba(234, 176, 234, 0.3)'
+          }}
+        >
+          Contáctame
+        </h2>
+        <div className="mt-8 p-4 md:p-6 rounded-md bg-transparent backdrop-blur-sm border border-white/20 w-96 max-w-full">
         {state.succeeded ? (
           <p className="text-center" style={{ color: '#eab0ea' }}>Gracias por tu mensaje !</p>
         ) : (
@@ -580,7 +536,8 @@ const ContactSection = () => {
               </button>
             </div>
           </form>
-        )}
+          )}
+        </div>
       </div>
       
       {/* Remove the banner component */}

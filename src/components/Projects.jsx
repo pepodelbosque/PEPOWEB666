@@ -1,10 +1,7 @@
 import { Image, Text } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { animate, useMotionValue } from "framer-motion";
-
 import { motion } from "framer-motion-3d";
-import { atom, useAtom } from "jotai";
-import { useEffect, useRef } from "react";
+import { useMemo, useRef } from "react";
 
 export const projects = [
   {
@@ -76,25 +73,13 @@ export const projects = [
 ];
 
 const Project = (props) => {
-  const { project, highlighted } = props;
-
-  const background = useRef();
-  const bgOpacity = useMotionValue(0.4);
-
-  useEffect(() => {
-    animate(bgOpacity, highlighted ? 0.7 : 0.4);
-  }, [highlighted]);
-
-  useFrame(() => {
-    background.current.material.opacity = bgOpacity.get();
-  });
+  const { project } = props;
 
   return (
     <group {...props}>
       <mesh
         position-z={-0.001}
         onClick={() => window.open(project.url, "_blank")}
-        ref={background}
       >
         <planeGeometry args={[2.2, 2]} />
         <meshBasicMaterial color="black" transparent opacity={0.4} />
@@ -127,28 +112,69 @@ const Project = (props) => {
   );
 };
 
-export const currentProjectAtom = atom(Math.floor(projects.length / 2));
+const wrapValue = (value, min, max) => {
+  const range = max - min;
+  return ((((value - min) % range) + range) % range) + min;
+};
 
 export const Projects = () => {
   const { viewport } = useThree();
-  const [currentProject] = useAtom(currentProjectAtom);
+  const isMobile = viewport.width < 8;
+  const carouselLevels = isMobile ? [1.7, -0.15, -2.0] : [1.9, -0.05, -1.95];
+  const projectsSectionOffset = isMobile ? 0.6 : 0.45;
+  const rowRefs = useRef([]);
+  const spacing = 2.5;
+  const totalWidth = projects.length * spacing;
+  const repeatedCopies = [-1, 0, 1];
+  const rowMotion = useMemo(
+    () =>
+      carouselLevels.map((_, index) => ({
+        direction: index === 1 ? 1 : -1,
+        speed: 0.35 + Math.random() * 0.25,
+        startOffset: -Math.random() * totalWidth,
+      })),
+    []
+  );
+
+  useFrame((state) => {
+    const elapsedTime = state.clock.getElapsedTime();
+
+    rowRefs.current.forEach((row, index) => {
+      if (!row) {
+        return;
+      }
+
+      const { direction, speed, startOffset } = rowMotion[index];
+      row.position.x = wrapValue(
+        startOffset + elapsedTime * speed * direction,
+        -totalWidth,
+        0
+      );
+    });
+  });
 
   return (
-    <group position-y={-viewport.height * 2 + 1}>
-      {projects.map((project, index) => (
-        <motion.group
-          key={"project_" + index}
-          position={[index * 2.5, 0, -3]}
-          animate={{
-            x: 0 + (index - currentProject) * 2.5,
-            y: currentProject === index ? 0 : -0.1,
-            z: currentProject === index ? -2 : -3,
-            rotateX: currentProject === index ? 0 : -Math.PI / 3,
-            rotateZ: currentProject === index ? 0 : -0.1 * Math.PI,
+    <group position-y={-viewport.height * 2 - projectsSectionOffset}>
+      {carouselLevels.map((levelY, levelIndex) => (
+        <group
+          key={`carousel_level_${levelIndex}`}
+          position-y={levelY}
+          ref={(element) => {
+            rowRefs.current[levelIndex] = element;
           }}
         >
-          <Project project={project} highlighted={index === currentProject} />
-        </motion.group>
+          {repeatedCopies.map((copyIndex) =>
+            projects.map((project, index) => (
+              <motion.group
+                key={`project_${levelIndex}_${copyIndex}_${index}`}
+                position={[index * spacing + copyIndex * totalWidth, -0.1, -3]}
+                rotation={[-Math.PI / 3, 0, -0.1 * Math.PI]}
+              >
+                <Project project={project} />
+              </motion.group>
+            ))
+          )}
+        </group>
       ))}
     </group>
   );

@@ -45,7 +45,6 @@ export const Menu = (props) => {
   const { onSectionChange, menuOpened, setMenuOpened, section } = props;
   const [isVisible, setIsVisible] = useState(false);
   const { isMuted, toggleMute } = useAudio();
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     // Only show the menu button when in the Office section (section 0)
@@ -60,12 +59,6 @@ export const Menu = (props) => {
       setIsVisible(true); // Always visible in other sections
     }
   }, [section]);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   return (
     <>
@@ -123,10 +116,10 @@ export const Menu = (props) => {
           </div>
         )}
         <div className="flex-1 flex items-end justify-center flex-col gap-3 p-8 relative z-10 text-right">
-          <MenuButton label="Inicio" onClick={() => onSectionChange(0)} isMobile={isMobile} />
-          <MenuButton label="Habilidades" onClick={() => onSectionChange(1)} isMobile={isMobile} />
-          <MenuButton label="Films & Video" onClick={() => onSectionChange(2)} isMobile={isMobile} />
-          <MenuButton label="Contáctame" onClick={() => onSectionChange(3)} isMobile={isMobile} />
+          <MenuButton label="Inicio" onClick={() => onSectionChange(0)} />
+          <MenuButton label="Habilidades" onClick={() => onSectionChange(1)} />
+          <MenuButton label="Films & Video" onClick={() => onSectionChange(2)} />
+          <MenuButton label="Contáctame" onClick={() => onSectionChange(3)} />
         </div>
       </div>
     </>
@@ -134,17 +127,11 @@ export const Menu = (props) => {
 };
 
 const MenuButton = (props) => {
-  const { label, onClick, isMobile } = props;
+  const { label, onClick } = props;
   return (
     <button
       onClick={onClick}
-      className={`bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle ${isMobile ? 'text-purple-900' : 'text-transparent opacity-50'}`}
-      style={{
-        ...( !isMobile && {
-          WebkitTextStroke: '0.01px black',
-          textStroke: '0.01px black'
-        })
-      }}
+      className="bg-[#dd81dd] py-2 px-4 rounded-lg font-bold text-sm font-dxfiggle text-[#8a42b8]"
     >
       {label}
     </button>
